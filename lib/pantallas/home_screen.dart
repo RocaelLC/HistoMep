@@ -2,9 +2,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/preguntasFrecuentes.dart';
-import 'package:flutter_application_2/pantallas/registrarse_screen.dart';
-import 'package:flutter_application_2/pantallas/registroImp.dart';
+import 'package:flutter_application_1/pantallas/preguntasFrecuentes.dart';
+import 'package:flutter_application_1/pantallas/registrarse_screen.dart';
+import 'package:flutter_application_1/pantallas/RegistroImp.dart';
 
 //import 'package:flutter_application_2/pantallas/registrase_screen.dart'; // Importa la otra pantalla
 

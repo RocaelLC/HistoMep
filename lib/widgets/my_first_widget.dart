@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/pantallas/seguimiento_screen.dart';
 
 class MyFirstWidget extends StatefulWidget {
   @override
