@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/controllers/imp_controller.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/Pantallas/preguntasFrecuentes.dart';
+import 'package:flutter_application_1/Pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/Pantallas/registroImp.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
 
 class seguimiento_screen extends StatelessWidget {
   @override
@@ -10,10 +11,14 @@ class seguimiento_screen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Seguimiento'),
       ),
+            drawer: Drawer(
+        child: _menuDrawer(context),
+      ),
+
       body: Center(
         child: Column(
           children: [Image.network('https://cdn-icons-png.flaticon.com/512/1238/1238169.png'),
-        Text(
+        const Text(
               'Aqui se mostrara el seguimiento de cada paciente y sus doctores',
               style: TextStyle(fontSize: 24),
             ),
@@ -24,7 +29,7 @@ class seguimiento_screen extends StatelessWidget {
         ),
       ), 
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
@@ -49,6 +54,10 @@ class seguimiento_screen extends StatelessWidget {
           switch (index) {
             case 0:
               // No es necesario hacer nada ya que estamos en la pantalla actual
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => registroImp()),
+              );
               break;
             case 1:
               // Navegar a la pantalla de Recetas
@@ -68,14 +77,14 @@ class seguimiento_screen extends StatelessWidget {
               // Navegar a la pantalla de Permisos
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
+                MaterialPageRoute(builder: (context) => PermisosScreen()),
               );
               break;
               case 4:
               // Navegar a la pantalla de Permisos
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ImpEscreen()),
+                MaterialPageRoute(builder: (context) => recetas_screen()),
               );
               break;
           }
@@ -83,4 +92,64 @@ class seguimiento_screen extends StatelessWidget {
       ),
     );
   }
+  Widget _menuDrawer(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/250px-Facebook_Home_logo.svg.png'),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'HistoMep',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.home),
+          title: Text('Inicio'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => registroImp()),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.question_answer),
+          title: Text('Preguntas frecuentes'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => preguntasFrecuentes()),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.view_agenda),
+          title: Text('Vista guiada'),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: Icon(Icons.message),
+          title: Text('Conócenos'),
+          onTap: () {},
+        ),
+      ],
+    );
+  }
 }
+

@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/controllers/imp_controller.dart';
-import 'package:flutter_application_2/pantallas/RegistroImpScreen.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/Pantallas/login_screen.dart';
+import 'package:flutter_application_1/Pantallas/preguntasFrecuentes.dart';
+import 'package:flutter_application_1/controllers/imp_controller.dart';
+import 'package:flutter_application_1/pantallas/RegistroImpScreen.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/pantallas/seguimiento_screen.dart';
 
 class registroImp extends StatefulWidget {
   @override
@@ -40,6 +43,9 @@ class _ImpEscreenState extends State<registroImp> {
       backgroundColor: const Color.fromARGB(255, 183, 204, 214),
       appBar: AppBar(
         title: Text('Generar IMP'),
+      ),
+      drawer: Drawer(
+        child: _menuDrawer(context),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -169,7 +175,7 @@ class _ImpEscreenState extends State<registroImp> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
@@ -213,7 +219,7 @@ class _ImpEscreenState extends State<registroImp> {
               // Navegar a la pantalla de Permisos
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
+                MaterialPageRoute(builder: (context) => PermisosScreen()),
               );
               break;
           }
@@ -221,9 +227,84 @@ class _ImpEscreenState extends State<registroImp> {
       ),
     );
   }
+  Widget _menuDrawer(BuildContext context) {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _signOut(BuildContext context) async {
+    await _auth.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()), // Reemplaza YourLoginScreen() con tu pantalla de inicio de sesión
+    );
+  }
+
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 10,
+              backgroundImage: NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/250px-Facebook_Home_logo.svg.png'),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'HistoMep',
+              style: TextStyle(fontSize: 30, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.home),
+        title: Text('Inicio'),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => registroImp()),
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.question_answer),
+        title: Text('Preguntas frecuentes'),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => preguntasFrecuentes()),
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.view_agenda),
+        title: Text('Vista guiada'),
+        onTap: () {},
+      ),
+      ListTile(
+        leading: Icon(Icons.message),
+        title: Text('Conócenos'),
+        onTap: () {},
+      ),
+      ListTile(
+        leading: Icon(Icons.message),
+        title: Text('Cerrar Sesión'),
+        onTap: () => _signOut(context), // Llama a la función _signOut() al hacer clic
+      ),
+    ],
+  );
+  }
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<ImpController>('_controller', _controller));
   }
 }
+  

@@ -1,120 +1,75 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/controllers/recetas_controller.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/Pantallas/login_screen.dart';
+import 'package:flutter_application_1/Pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/Pantallas/preguntasFrecuentes.dart';
+import 'package:flutter_application_1/Pantallas/registroImp.dart';
+import 'package:flutter_application_1/Pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/controllers/recetas_controller.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
 
 class recetas_screen extends StatelessWidget {
   final RecetasController controller = RecetasController(); // Instancia del controlador
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 145, 200, 228),
-      appBar: AppBar(
-        title: Text('Recetas'),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Color.fromARGB(255, 145, 200, 228),
+    appBar: AppBar(
+      
+      title: Text('Recetas'),
+    ),
+     drawer: Drawer(
+        child: _menuDrawer(context),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Imagen
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ23VrYkP0oKiaVpJC_GFyDu7f-QR7RKUDhGXzbaxRfNI4YChe7QxM1t_kf5UT40eXi9Q&usqp=CAU',
-              width: 400, // Ancho de la imagen
-            ),
-            SizedBox(height: 20), // Espaciado entre la imagen y los botones
-
-            // Primer botón y texto
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Fecha:'),
-                Text('Recetó:'),
-                SizedBox(width: 10), // Espaciado entre el botón y el texto
-                ElevatedButton(
-                  onPressed: () {
-                    // Llama al método para abrir el documento cuando se presiona el botón
-                    controller.abrirDocumento(context);
-                  },
-                  child: Text('Ver Receta'),
-                ),
-              ],
-            ),
-            SizedBox(height: 20), // Espaciado entre los botones
-
-            // Segundo botón y texto
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Fecha:'),
-                Text('Recetó:'),
-                SizedBox(width: 10), // Espaciado entre el botón y el texto
-                ElevatedButton(
-                  onPressed: () {
-                    // Agrega aquí la lógica para el segundo botón
-                  },
-                  child: Text('Ver Receta'),
-                ),
-              ],
-            ),
-            SizedBox(height: 20), // Espaciado entre los botones
-
-            // Tercer botón y texto
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Fecha:'),
-                Text('Recetó:'),
-                SizedBox(width: 10), // Espaciado entre el botón y el texto
-                ElevatedButton(
-                  onPressed: () {
-                    // Agrega aquí la lógica para el tercer botón
-                  },
-                  child: Text('Ver Receta'),
-                  
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            // Sección para escanear una receta con la cámara
-            // Botón y texto para escanear una receta
-            // Sección de botón y texto para escanear una receta
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                
-                SizedBox(width: 10), // Espaciado entre el texto y el botón
-                ElevatedButton(
-                  onPressed: () {
-                    // Agrega aquí la lógica para escanear una receta con la cámara
-                  },
-                  child: Text('Escanear Receta'),
-                ),
-              ],
-            ),
-            SizedBox(height: 20), // Espaciado entre los botones
-
-            // Sección de botón y texto para seleccionar y subir un documento
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                
-                SizedBox(width: 10), // Espaciado entre el texto y el botón
-                ElevatedButton(
-                  onPressed: () {
-                    // Agrega aquí la lógica para seleccionar y subir un documento
-                  },
-                  child: Text('Subir Documento'),
-                ),
-              ],
-            ),
-          ],
+    body: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 420.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Botón 1
+              Column(
+                children: [
+                  const Icon(Icons.camera_alt_sharp,
+                  size: 100),
+                   // Icono
+                  SizedBox(height: 25), // Espacio entre el icono y el botón
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.escanearReceta(context);
+                    },
+                    child: Text('Escanear Receta'),
+                  ),
+                ],
+              ),
+              // Botón 2
+              Column(
+                children: [
+                  const Icon(Icons.photo_album_rounded,
+                   size: 100), // Icono
+                  SizedBox(height: 25), // Espacio entre el icono y el botón
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.subirReceta(context);
+                    },
+                    child: Text('Subir Receta'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-        
+      ],
+    ),
+
+
+
+    
       
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
@@ -138,7 +93,10 @@ class recetas_screen extends StatelessWidget {
           // Lógica para manejar la navegación entre las diferentes opciones
           switch (index) {
             case 0:
-              // No es necesario hacer nada ya que estamos en la pantalla actual
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => registroImp()),
+              );
               break;
             case 1:
               // Navegar a la pantalla de Recetas
@@ -156,15 +114,92 @@ class recetas_screen extends StatelessWidget {
               break;
             case 3:
               // Navegar a la pantalla de Permisos
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
-              );
+              //Navigator.push(
+                //context,
+              //);
               break;
               
           }
         },
       ),
     );
+    
+  }
+  Widget _menuDrawer(BuildContext context) {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _signOut(BuildContext context) async {
+    await _auth.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()), // Reemplaza YourLoginScreen() con tu pantalla de inicio de sesión
+    );
+  }
+
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 10,
+              backgroundImage: NetworkImage(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/250px-Facebook_Home_logo.svg.png'),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'HistoMep',
+              style: TextStyle(fontSize: 30, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.home),
+        title: Text('Inicio'),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => registroImp()),
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.question_answer),
+        title: Text('Preguntas frecuentes'),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => preguntasFrecuentes()),
+          );
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.view_agenda),
+        title: Text('Vista guiada'),
+        onTap: () {},
+      ),
+      ListTile(
+        leading: Icon(Icons.message),
+        title: Text('Conócenos'),
+        onTap: () {},
+      ),
+      ListTile(
+        leading: Icon(Icons.message),
+        title: Text('Cerrar Sesión'),
+        onTap: () => _signOut(context), // Llama a la función _signOut() al hacer clic
+      ),
+    ],
+  );
   }
 }
+
+
+     

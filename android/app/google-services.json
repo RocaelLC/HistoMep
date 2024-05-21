@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "636631667334",
+    "firebase_url": "https://histomepweb-1da8a-default-rtdb.firebaseio.com",
+    "project_id": "histomepweb-1da8a",
+    "storage_bucket": "histomepweb-1da8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636631667334:android:3abf5a6ec0f3b4b5257707",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpFqe7jv32q2y151zA79_nbWCgl7rMzvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/registroImp.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/Pantallas/preguntasFrecuentes.dart';
+import 'package:flutter_application_1/Pantallas/registroImp.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class permisos_screen extends StatelessWidget {
+class PermisosScreen extends StatefulWidget {
+  @override
+  _PermisosScreenState createState() => _PermisosScreenState();
+}
+
+class _PermisosScreenState extends State<PermisosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,75 +18,110 @@ class permisos_screen extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          children: [Image.network('https://cdn-icons-png.flaticon.com/512/1238/1238169.png'),
-        Text(
-              'AQui se mostraran los permisos del usuario a su doctor',
-              style: TextStyle(fontSize: 24),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _solicitarPermiso(Permission.camera);
+              },
+              child: Text('Permitir cámara'),
             ),
-            SizedBox(height: 20),
-
-          ]
-          
+            ElevatedButton(
+              onPressed: () {
+                _solicitarPermiso(Permission.location);
+              },
+              child: Text('Permitir ubicación'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _solicitarPermiso(Permission.microphone);
+              },
+              child: Text('Permitir micrófono'),
+            ),
+          ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_rounded),
-            label: 'Recetas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timeline),
-            label: 'Seguimiento',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lock),
-            label: 'Permisos',
-          ),
-        ],
-        currentIndex: 3, // Coloca aquí el índice de la pantalla actual
-        selectedItemColor: Colors.blue,
-        onTap: (index) {
-          // Lógica para manejar la navegación entre las diferentes opciones
-          switch (index) {
-            case 0:
-              // No es necesario hacer nada ya que estamos en la pantalla actual
-              break;
-            case 1:
-              // Navegar a la pantalla de Recetas
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => recetas_screen()),
-              );
-              break;
-            case 2:
-              // Navegar a la pantalla de Seguimiento
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => seguimiento_screen()),
-              );
-              break;
-            case 3:
-              // Navegar a la pantalla de Permisos
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
-              );
-              break;
-              case 4:
-              // Navegar a la pantalla de Permisos
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => registroImp()),
-              );
-              break;
-          }
-        },
       ),
     );
   }
+
+  Future<void> _solicitarPermiso(Permission permission) async {
+    final status = await permission.request();
+    if (status.isGranted) {
+      // Permiso otorgado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Permiso otorgado')),
+      );
+    } else if (status.isDenied) {
+      // Permiso denegado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Permiso denegado')),
+      );
+    } else if (status.isPermanentlyDenied) {
+      // Permiso permanentemente denegado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Permiso permanentemente denegado')),
+      );
+    }
+  }
 }
+
+  
+  Widget _menuDrawer(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/250px-Facebook_Home_logo.svg.png'),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'HistoMep',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.home),
+          title: Text('Inicio'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => registroImp()),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.question_answer),
+          title: Text('Preguntas frecuentes'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => preguntasFrecuentes()),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.view_agenda),
+          title: Text('Vista guiada'),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: Icon(Icons.message),
+          title: Text('Conócenos'),
+          onTap: () {},
+        ),
+      ],
+    );
+  }

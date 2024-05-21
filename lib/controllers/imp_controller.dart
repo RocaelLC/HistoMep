@@ -1,15 +1,17 @@
+// TODO Implement this library.
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/Pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/pantallas/seguimiento_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImpController {
   late File _image;
 
-  Future<File?> selectImage(BuildContext context) async {
+  /*Future<File?> selectImage(BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -38,17 +40,17 @@ class _ImpEscreenState extends State<ImpEscreen> {
     super.initState();
     _controller = ImpController();
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil de Usuario'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          /*children: <Widget>[
             ElevatedButton(
               onPressed: () async {
                 File? image = await _controller.selectImage(context);
@@ -62,7 +64,7 @@ class _ImpEscreenState extends State<ImpEscreen> {
               },
               child: const Text('Seleccionar foto de perfil'),
             ),
-          ],
+          ],*/
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -104,10 +106,10 @@ class _ImpEscreenState extends State<ImpEscreen> {
               );
               break;
             case 3:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
-              );
+              //Navigator.push(
+                //context,
+                //MaterialPageRoute(builder: (context) => PermisosScreen()),
+              //);
               break;
           }
         },

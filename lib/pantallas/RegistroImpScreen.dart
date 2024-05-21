@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/permisos_screen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/seguimiento_screen.dart';
+import 'package:flutter_application_1/pantallas/permisos_screen.dart';
+import 'package:flutter_application_1/pantallas/recetas_screen.dart';
+import 'package:flutter_application_1/pantallas/seguimiento_screen.dart';
+
 import 'package:qr_flutter/qr_flutter.dart';
 
 class RegistroImpScreen extends StatelessWidget {
@@ -53,12 +54,22 @@ class RegistroImpScreen extends StatelessWidget {
                 version: QrVersions.auto,
                 size: 300.0,
               ),
+              ElevatedButton(
+              onPressed: () {
+                // Navega a la pantalla de registro al presionar el botón de registro
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => seguimiento_screen()),
+                );
+                },
+                child: Text('Adelante'),
+                 ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
@@ -102,7 +113,7 @@ class RegistroImpScreen extends StatelessWidget {
               // Navegar a la pantalla de Permisos
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => permisos_screen()),
+                MaterialPageRoute(builder: (context) => PermisosScreen()),
               );
               break;
           }

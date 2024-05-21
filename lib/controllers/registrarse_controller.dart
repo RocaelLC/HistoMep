@@ -1,49 +1,37 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrarseController {
-  Future<bool> enviarDatosAlServidor(BuildContext context, String usuario, String contrasena) async {
-    final url = Uri.parse('https://jsonplaceholder.typicode.com/users');
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  bool validateEmail(String email) {
+    // Implementa la validación del correo electrónico según tus necesidades
+    // Devuelve true si el correo electrónico es válido, false en caso contrario
+    // Por ejemplo:
+    return email.isNotEmpty; // Validación simple para verificar que el campo no esté vacío
+  }
+
+  bool validatePassword(String password) {
+    // Implementa la validación de la contraseña según tus necesidades
+    // Devuelve true si la contraseña es válida, false en caso contrario
+    // Por ejemplo:
+    return password.length >= 6; // Validación simple para verificar que la contraseña tenga al menos 6 caracteres
+  }
+
+  bool passwordsMatch(String password, String confirmPassword) {
+    // Verifica si las contraseñas ingresadas coinciden
+    return password == confirmPassword;
+  }
+
+  Future<void> registerUser(String email, String password) async {
     try {
-      final response = await http.post(
-        url,
-        body: jsonEncode({
-          'username': usuario,
-          'password': contrasena,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 201) {
-        // Si el usuario se registró correctamente, muestra un mensaje de éxito
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('¡Usuario registrado con éxito!'),
-          ),
-        );
-        return true; // Indica que el registro fue exitoso
-      } else {
-        // Si hubo un error al registrar al usuario, muestra un mensaje de error
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error al registrar usuario. Inténtalo de nuevo más tarde.'),
-          ),
-        );
-        return false; // Indica que el registro no fue exitoso
-      }
-    } catch (error) {
-      // Si hubo un error durante la solicitud, muestra un mensaje de error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al conectar con el servidor. Inténtalo de nuevo más tarde.'),
-        ),
-      );
-      return false; // Indica que la solicitud falló
+      // Registra al usuario en Firebase Auth
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      // Aquí puedes realizar alguna acción adicional después de registrar al usuario, como navegar a la siguiente pantalla
+      
+    } catch (e) {
+      // Maneja cualquier error que pueda ocurrir durante el registro
+      print('Error al registrar al usuario: $e');
+      // Aquí puedes mostrar un mensaje de error al usuario
     }
   }
 }

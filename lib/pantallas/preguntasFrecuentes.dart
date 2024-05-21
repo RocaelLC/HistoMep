@@ -4,13 +4,13 @@ class preguntasFrecuentes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(172, 0, 94, 255),
+      backgroundColor: Color.fromRGBO(255, 237, 240, 1),
       appBar: AppBar(
         title: Text('Preguntas Frecuentes'),
       ),
       body: ListView(
         padding: EdgeInsets.all(16.0),
-        children: <Widget>[
+        children: const <Widget>[
           ExpansionTile(
             title: Text(
               '¿Como registrarme?',
@@ -118,10 +118,4 @@ class preguntasFrecuentes extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: preguntasFrecuentes(),
-  ));
 }

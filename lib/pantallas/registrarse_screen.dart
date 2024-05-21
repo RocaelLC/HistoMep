@@ -1,55 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/RegistroImpScreen.dart';
-import 'package:flutter_application_2/pantallas/recetas_screen.dart';
-import 'package:flutter_application_2/pantallas/registroImp.dart';
+import 'package:flutter_application_1/controllers/registrarse_controller.dart';
 
-class RegistrarseScreen extends StatefulWidget {
+class registrarse_screen extends StatefulWidget {
   @override
-  State<RegistrarseScreen> createState() => _registrarseState();
+  _RegistroScreenState createState() => _RegistroScreenState();
 }
 
-class _registrarseState extends State<RegistrarseScreen> {
-  final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _apellidosController = TextEditingController();
-  // Otros controladores para los datos necesarios
+class _RegistroScreenState extends State<registrarse_screen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  bool obscurePassword = true;
+  bool obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro de Usuario'),
+        title: Text('Registro'),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Campos de entrada para la información del usuario
-            TextFormField(
-              controller: _nombreController,
-              decoration: InputDecoration(labelText: 'Nombre'),
+          children: [
+            // Contenido del formulario de registro aquí
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: 'Correo electrónico'),
             ),
-            TextFormField(
-              controller: _apellidosController,
-              decoration: InputDecoration(labelText: 'Apellidos'),
+            SizedBox(height: 20.0),
+            TextField(
+              controller: passwordController,
+              obscureText: obscurePassword,
+              decoration: InputDecoration(
+                labelText: 'Contraseña',
+                suffixIcon: IconButton(
+                  icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      obscurePassword = !obscurePassword;
+                    });
+                  },
+                ),
+              ),
             ),
-            // Otros campos de entrada para la información necesaria
-
+            SizedBox(height: 20.0),
+            TextField(
+              controller: confirmPasswordController,
+              obscureText: obscureConfirmPassword,
+              decoration: InputDecoration(
+                labelText: 'Confirmar contraseña',
+                suffixIcon: IconButton(
+                  icon: Icon(obscureConfirmPassword ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      obscureConfirmPassword = !obscureConfirmPassword;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                // Cuando se presiona el botón "Siguiente"
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RegistroImpScreen(
-                      nombre: _nombreController.text,
-                      apellidos: _apellidosController.text, fechaNacimiento: '', curp: '',
-                      // Otros datos necesarios
-                    ),
-                  ),
-                );
+                final RegistrarseController _controller = RegistrarseController();
+                String email = emailController.text.trim();
+                String password = passwordController.text;
+                String confirmPassword = confirmPasswordController.text;
+
+                if (_controller.validateEmail(email) &&
+                    _controller.validatePassword(password) &&
+                    _controller.passwordsMatch(password, confirmPassword)) {
+                  _controller.registerUser(email, password); // Llamada al método de registro
+                  // Aquí puedes navegar a la siguiente pantalla o realizar alguna otra acción después de registrar al usuario
+                } else {
+                  'falló';
+                }
               },
-              child: Text('Siguiente'),
+              child: Text('Registrarse'),
             ),
           ],
         ),

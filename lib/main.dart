@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/pantallas/home_screen.dart'; // Importa la pantalla de inicio
+import 'package:flutter_application_1/Pantallas/InicioScreen.dart';
+import 'package:flutter_application_1/Pantallas/login_screen.dart';
 
-void main() {
+
+
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,7 +23,7 @@ class MyApp extends StatelessWidget {
       
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(), // Establece la pantalla de inicio como la pantalla principal
+      home: InicioScreen(), // Establece la pantalla de inicio como la pantalla principal
     );
   }
 }
